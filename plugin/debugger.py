@@ -295,7 +295,7 @@ class StackWindow(VimWindow):
           node.getAttribute('filename')[7:], \
           node.getAttribute('lineno')))
   def on_create(self):
-    self.command('highlight CurStack term=reverse ctermfg=White ctermbg=Red gui=reverse')
+    self.command('highlight CurStack term=reverse ctermfg=White ctermbg=Magenta gui=reverse')
     self.highlight_stack(0)
   def highlight_stack(self, no):
     self.command('syntax clear')
@@ -411,17 +411,18 @@ class HelpWindow(VimWindow):
   def __init__(self, name = 'HELP__WINDOW'):
     VimWindow.__init__(self, name)
   def on_create(self):
+    n = "\n"
     self.write(                                                          \
-        '[ Function Keys ]                 |                       \n' + \
-        '  <F1>   resize                   | [ Normal Mode ]       \n' + \
-        '  <F2>   step into                |   ,e  eval            \n' + \
-        '  <F3>   step over                |                       \n' + \
-        '  <F4>   step out                 |                       \n' + \
-        '  <F5>   run                      | [ Command Mode ]      \n' + \
-        '  <F6>   quit debugging           | :Bp toggle breakpoint \n' + \
-        '                                  | :Up stack up          \n' + \
-        '  <F11>  get all context          | :Dn stack down        \n' + \
-        '  <F12>  get property at cursor   |                       \n' + \
+       r'[ Function Keys ]                 |                       ' +n+ \
+       r'  <F1>   resize                   | [ Normal Mode ]       ' +n+ \
+       r'  <C-j>  step into                | \x  eXecute           ' +n+ \
+       r'  <C-h>  step over                | \b  toggle breakpoint ' +n+ \
+       r'  <C-k>  step out                 | \r  run               ' +n+ \
+       r'                                  | \dq quit debugging    ' +n+ \
+       r'                                  | [ Command Mode ]      ' +n+ \
+       r'                                  | :Up stack up          ' +n+ \
+       r'  <F11>  get all context          | :Dn stack down        ' +n+ \
+       r'  <F12>  get property at cursor   |                       ' +n+ \
         '\n')
     self.command('1')
 
@@ -501,8 +502,10 @@ class DebugUI:
 
   def set_highlight(self):
     """ set vim highlight of debugger sign """
-    vim.command("highlight DbgCurrent term=reverse ctermfg=White ctermbg=Red gui=reverse")
-    vim.command("highlight DbgBreakPt term=reverse ctermfg=White ctermbg=Green gui=reverse")
+    # TODO - Make this use pretty jellybeans colors :)
+    # vim.command("highlight DbgCurrent term=reverse ctermfg=White ctermbg=Red gui=reverse")
+    # vim.command("highlight DbgBreakPt term=reverse ctermfg=White ctermbg=Blue gui=reverse")
+    pass
 
   def destroy(self):
     """ destroy windows """

@@ -130,16 +130,30 @@ endif
 map <F1> :python debugger_resize()<cr>
 map <F2> :python debugger_command('step_into')<cr>
 map <F3> :python debugger_command('step_over')<cr>
-map <F4> :python debugger_command('step_out')<cr>
+
+function DebugOn()
+    map <C-j> :python debugger_command('step_into')<cr>
+    map <C-h> :python debugger_command('step_over')<cr>
+    map <C-k> :python debugger_command('step_out')<cr>
+    map <leader>b :Bp<cr>
+    :python debugger_run()
+endfunction
+map <Leader>dd :call DebugOn()<cr>
+
+function DebugOff()
+    :python debugger_quit()
+    unmap <C-j>
+    unmap <C-h>
+    unmap <C-k>
+endfunction
+map <Leader>dq :call DebugOff()<cr>
+
 
 map <Leader>dr :python debugger_resize()<cr>
-map <Leader>di :python debugger_command('step_into')<cr>
-map <Leader>do :python debugger_command('step_over')<cr>
-map <Leader>dt :python debugger_command('step_out')<cr>
 
-nnoremap ,e :python debugger_watch_input("eval")<cr>A
+nnoremap <Leader>x :python debugger_watch_input("eval")<cr>A
 
-map <F5> :python debugger_run()<cr>
+map <leader>r :python debugger_run()<cr>
 map <F6> :python debugger_quit()<cr>
 
 map <F7> :python debugger_command('step_into')<cr>
@@ -151,8 +165,8 @@ map <F12> :python debugger_property()<cr>
 map <F11> :python debugger_watch_input("context_get")<cr>A<cr>
 map <F12> :python debugger_watch_input("property_get", '<cword>')<cr>A<cr>
 
-hi DbgCurrent term=reverse ctermfg=White ctermbg=Red gui=reverse
-hi DbgBreakPt term=reverse ctermfg=White ctermbg=Green gui=reverse
+" hi DbgCurrent term=reverse ctermfg=White ctermbg=Green gui=reverse
+" hi DbgBreakPt term=reverse ctermfg=White ctermbg=Magenta gui=reverse
 
 command! -nargs=? Bp python debugger_mark('<args>')
 command! -nargs=0 Up python debugger_up()
