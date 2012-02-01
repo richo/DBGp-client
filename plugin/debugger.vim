@@ -136,11 +136,15 @@ function DebugOn()
     map <C-h> :python debugger_command('step_over')<cr>
     map <C-k> :python debugger_command('step_out')<cr>
     map <leader>b :Bp<cr>
+    let g:debug_status = '|| XDEBUG'
+    do BufEnter
     :python debugger_run()
 endfunction
 map <Leader>dd :call DebugOn()<cr>
 
 function DebugOff()
+    let g:debug_status = ''
+    do BufEnter
     :python debugger_quit()
     unmap <C-j>
     unmap <C-h>
